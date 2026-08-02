@@ -1,0 +1,49 @@
+generated: '2026-08-02'
+method: probed
+source: https://mcp.cerapedics.com/mcp
+format: oauth2-error
+format_note: >-
+  Not RFC 9457. The MCP server returns the RFC 6749 / RFC 6750 error envelope
+  {"error": "...", "error_description": "..."} as application/json, paired with a
+  WWW-Authenticate response header. Only the responses actually observed by
+  unauthenticated probing are recorded — Cerapedics publishes no error reference
+  documentation, and no additional error shapes have been inferred.
+envelope:
+  media_type: application/json
+  fields:
+  - {name: error, type: string, description: machine-readable OAuth error code}
+  - {name: error_description, type: string, description: human-readable explanation}
+problems:
+- status: 401
+  error: unauthorized
+  title: Missing or invalid bearer token
+  detail: missing or invalid bearer token
+  headers:
+    WWW-Authenticate: Bearer resource_metadata="https://mcp.cerapedics.com/.well-known/oauth-protected-resource"
+  remediation: >-
+    Obtain an access token from the Cerapedics Microsoft Entra ID tenant
+    (authorization_code + PKCE S256) for the scope
+    https://mcp.cerapedics.com/mcp/user_impersonation and present it in the
+    Authorization header. Follow the resource_metadata URL in the challenge to
+    discover the authorization server, per RFC 9728.
+  observed_on:
+  - 'GET https://mcp.cerapedics.com/'
+  - 'GET https://mcp.cerapedics.com/health'
+  - 'GET https://mcp.cerapedics.com/openapi.json'
+  - 'GET https://mcp.cerapedics.com/sse'
+  - 'POST https://mcp.cerapedics.com/mcp (tools/list)'
+- status: 404
+  error: null
+  title: Not Found
+  detail: 'Not Found'
+  body_type: text/plain
+  note: >-
+    Returned by the MCP host for unrouted paths, including
+    /.well-known/agent-card.json. Plain text, not the JSON error envelope.
+  observed_on:
+  - 'GET https://mcp.cerapedics.com/.well-known/agent-card.json'
+  - 'GET https://mcp.cerapedics.com/.well-known/agent.json'
+x-evidence:
+  fetched: '2026-08-02'
+  note: authenticated error responses could not be observed; access is restricted to
+    the provider's Entra tenant

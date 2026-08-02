@@ -1,0 +1,1 @@
+{"resource":"https://mcp.cerapedics.com/mcp","authorization_servers":["https://login.microsoftonline.com/901bf24d-83de-4486-804c-8c263fdb31f4/v2.0"],"scopes_supported":["https://mcp.cerapedics.com/mcp/user_impersonation"],"bearer_methods_supported":["header"]}

@@ -1,0 +1,78 @@
+generated: '2026-08-02'
+method: probed
+source: live probe of every Cerapedics host discovered via DNS and apis.yml
+summary: >-
+  Two hosts were probed for the RFC 8615 /.well-known/ discovery surface: the corporate
+  Drupal site (www.cerapedics.com) and the OAuth-protected MCP server (mcp.cerapedics.com).
+  The corporate site returns its themed Drupal 404 page for every well-known path,
+  including /.well-known/agent-card.json and /.well-known/agent.json — no A2A agent
+  card is published. The MCP host serves two real, anonymously readable OAuth discovery
+  documents.
+hosts:
+- host: https://mcp.cerapedics.com
+  role: mcp-server
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    spec: RFC 9728 OAuth 2.0 Protected Resource Metadata
+    status: 200
+    content_type: application/json
+    file: cerapedics-oauth-protected-resource.json
+  - path: /.well-known/oauth-authorization-server
+    spec: RFC 8414 OAuth 2.0 Authorization Server Metadata
+    status: 200
+    content_type: application/json
+    file: cerapedics-oauth-authorization-server.json
+  - path: /.well-known/agent-card.json
+    spec: A2A 1.0.0 Agent Card
+    status: 404
+  - path: /.well-known/agent.json
+    spec: A2A pre-0.3 legacy Agent Card
+    status: 404
+- host: https://www.cerapedics.com
+  role: corporate-website
+  note: >-
+    Drupal 10 site. Every /.well-known/ path below returns the site's themed 404 page
+    (HTTP 404, text/html) — none of these documents are published.
+  documents:
+  - path: /.well-known/security.txt
+    spec: RFC 9116
+    status: 404
+  - path: /.well-known/openid-configuration
+    spec: OpenID Connect Discovery 1.0
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    spec: RFC 8414
+    status: 404
+  - path: /.well-known/api-catalog
+    spec: RFC 9727
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    spec: OpenAI plugin manifest
+    status: 404
+  - path: /.well-known/agent-card.json
+    spec: A2A 1.0.0 Agent Card
+    status: 404
+  - path: /.well-known/agent.json
+    spec: A2A pre-0.3 legacy Agent Card
+    status: 404
+  - path: /llms.txt
+    spec: llms.txt
+    status: 404
+  - path: /robots.txt
+    status: 200
+    note: stock Drupal robots.txt; no AI/agent directives, no Sitemap line
+x-evidence:
+  fetched: '2026-08-02'
+  method: HTTP GET, redirects followed
+  hosts_resolved_via_dns:
+  - mcp.cerapedics.com -> ca-itmcp-mcp.orangedune-23fe2cec.westus2.azurecontainerapps.io
+  - www.cerapedics.com
+  hosts_not_resolving:
+  - api.cerapedics.com
+  - developer.cerapedics.com
+  - developers.cerapedics.com
+  - docs.cerapedics.com
+  - portal.cerapedics.com
+  - status.cerapedics.com
+  - trust.cerapedics.com
+  - my.cerapedics.com

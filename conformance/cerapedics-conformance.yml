@@ -1,0 +1,92 @@
+generated: '2026-08-02'
+method: probed
+source: live probe of https://mcp.cerapedics.com and https://www.cerapedics.com
+note: >-
+  Cerapedics has no OpenAPI, AsyncAPI, GraphQL or JSON Schema surface to derive from.
+  Every assertion below was determined by fetching the provider's own endpoints. A
+  false conforms value means the probe found no evidence — it is not an assertion that
+  the provider fails a standard it never claimed.
+standards:
+- id: mcp-authorization
+  name: Model Context Protocol authorization (OAuth 2.1 profile)
+  conforms: true
+  evidence: >-
+    /mcp answers unauthenticated requests with 401 and a WWW-Authenticate: Bearer
+    header carrying resource_metadata, the discovery chain the MCP authorization spec
+    requires.
+- id: rfc9728-protected-resource-metadata
+  name: OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  evidence: 'GET /.well-known/oauth-protected-resource -> 200 application/json with
+    resource, authorization_servers, scopes_supported, bearer_methods_supported'
+- id: rfc8414-authorization-server-metadata
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: true
+  evidence: 'GET /.well-known/oauth-authorization-server -> 200 application/json with
+    issuer, authorization_endpoint, token_endpoint, grant_types_supported'
+- id: rfc6750-bearer-token-usage
+  name: OAuth 2.0 Bearer Token Usage
+  conforms: true
+  evidence: 'bearer_methods_supported: [header]; 401 responses carry a well-formed
+    WWW-Authenticate: Bearer challenge'
+- id: rfc7636-pkce
+  name: Proof Key for Code Exchange
+  conforms: true
+  evidence: 'code_challenge_methods_supported: [S256]'
+- id: oauth2
+  name: OAuth 2.0 authorization framework
+  conforms: true
+  evidence: authorization_code + refresh_token grants against a Microsoft Entra ID
+    issuer
+- id: oidc
+  name: OpenID Connect
+  conforms: partial
+  evidence: >-
+    openid and profile appear in scopes_supported and the issuer is an Entra v2.0
+    endpoint, but the MCP host itself serves no /.well-known/openid-configuration;
+    OIDC discovery lives on the Microsoft authorization server, not on Cerapedics
+    infrastructure.
+- id: rfc8615-well-known-uris
+  name: Well-Known URIs
+  conforms: true
+  evidence: two documents served from /.well-known/ on the MCP host
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: '/.well-known/agent-card.json and /.well-known/agent.json return 404 on
+    every Cerapedics host'
+- id: openapi
+  name: OpenAPI
+  conforms: false
+  evidence: 'no spec at any probed path on www.cerapedics.com or mcp.cerapedics.com
+    (/openapi.json, /openapi.yaml, /swagger.json, /api-docs, /docs, /redoc all 404 or
+    401)'
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  evidence: no event, streaming or webhook surface is documented or published
+- id: rfc9457-problem-details
+  name: Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    the MCP server returns an RFC 6749-style {"error","error_description"} JSON
+    envelope, not application/problem+json
+- id: rfc9116-security-txt
+  name: security.txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on www.cerapedics.com
+- id: llms-txt
+  name: llms.txt
+  conforms: false
+  evidence: /llms.txt returns 404 on www.cerapedics.com
+regulatory_context:
+  note: >-
+    Cerapedics is a US medical device manufacturer whose products are FDA Class III
+    premarket-approved (PMA) devices. These are product-level regulatory facts stated
+    on the company's own site, not API conformance claims, and no published API
+    compliance program (SOC 2, ISO 27001, HIPAA attestation) was found.
+  claims:
+  - {regime: FDA PMA, subject: i-FACTOR Peptide Enhanced Bone Graft, year: 2015, source: 'https://www.cerapedics.com/products/i-FACTOR'}
+  - {regime: FDA PMA, subject: PearlMatrix P-15 Peptide Enhanced Bone Graft, year: 2025, source: 'https://www.cerapedics.com/products/pearlmatrix'}
+x-evidence:
+  fetched: '2026-08-02'

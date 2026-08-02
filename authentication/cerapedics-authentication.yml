@@ -1,0 +1,54 @@
+generated: '2026-08-02'
+method: probed
+source: https://mcp.cerapedics.com/.well-known/oauth-protected-resource
+note: >-
+  Derived from live OAuth discovery documents rather than from an OpenAPI
+  securitySchemes block — Cerapedics publishes no OpenAPI definition. The
+  0-working/derive-authentication.py path was not applicable (no openapi/ directory).
+summary:
+  types: [oauth2]
+  api_key_in: []
+  oauth2_flows: [authorizationCode]
+  pkce: [S256]
+  bearer_methods_supported: [header]
+  identity_provider: Microsoft Entra ID
+  public_signup: false
+schemes:
+- name: mcp_oauth2
+  type: oauth2
+  applies_to: https://mcp.cerapedics.com/mcp
+  sources:
+  - well-known/cerapedics-oauth-protected-resource.json
+  - well-known/cerapedics-oauth-authorization-server.json
+  issuer: https://login.microsoftonline.com/901bf24d-83de-4486-804c-8c263fdb31f4/v2.0
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://login.microsoftonline.com/901bf24d-83de-4486-804c-8c263fdb31f4/oauth2/v2.0/authorize
+    tokenUrl: https://login.microsoftonline.com/901bf24d-83de-4486-804c-8c263fdb31f4/oauth2/v2.0/token
+    refreshSupported: true
+    code_challenge_methods_supported: [S256]
+    scopes:
+      https://mcp.cerapedics.com/mcp/user_impersonation: Act on the signed-in user's
+        behalf against the Cerapedics MCP server
+      openid: OpenID Connect sign-in
+      profile: Basic profile claims
+      offline_access: Issue a refresh token
+  token_endpoint_auth_methods_supported: [client_secret_post, client_secret_basic]
+  response_types_supported: [code]
+challenge:
+  status: 401
+  header: 'WWW-Authenticate: Bearer resource_metadata="https://mcp.cerapedics.com/.well-known/oauth-protected-resource"'
+  spec: RFC 6750 + RFC 9728
+  body: '{"error":"unauthorized","error_description":"missing or invalid bearer token"}'
+access:
+  self_service_signup: false
+  note: >-
+    No public developer registration exists. Tokens are issued by the Cerapedics
+    Microsoft Entra ID tenant, so access is limited to identities in (or federated
+    into) that tenant. There is no documented partner or public onboarding path.
+x-evidence:
+  fetched: '2026-08-02'
+  urls:
+  - {url: 'https://mcp.cerapedics.com/.well-known/oauth-protected-resource', http_status: 200}
+  - {url: 'https://mcp.cerapedics.com/.well-known/oauth-authorization-server', http_status: 200}
+  - {url: 'https://mcp.cerapedics.com/mcp', http_status: 401}

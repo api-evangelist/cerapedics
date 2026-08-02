@@ -1,0 +1,50 @@
+generated: '2026-08-02'
+method: probed
+source: https://mcp.cerapedics.com/.well-known/oauth-protected-resource
+note: >-
+  Cerapedics publishes no OpenAPI, so 0-working/derive-oauth-scopes.py had nothing to
+  read. These scopes come from the live RFC 9728 protected-resource metadata and the
+  RFC 8414 authorization-server metadata, which are the provider's own published scope
+  declarations. No scopes-reference documentation page exists.
+docs: null
+schemes:
+- name: mcp_oauth2
+  source: well-known/cerapedics-oauth-protected-resource.json
+  resource: https://mcp.cerapedics.com/mcp
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://login.microsoftonline.com/901bf24d-83de-4486-804c-8c263fdb31f4/oauth2/v2.0/authorize
+    tokenUrl: https://login.microsoftonline.com/901bf24d-83de-4486-804c-8c263fdb31f4/oauth2/v2.0/token
+scopes:
+- scope: https://mcp.cerapedics.com/mcp/user_impersonation
+  description: Delegated access to the Cerapedics MCP server, acting on the signed-in
+    user's behalf. The single resource-specific scope this API declares.
+  kind: resource
+  flows: [authorizationCode]
+  sources: [well-known/cerapedics-oauth-protected-resource.json, well-known/cerapedics-oauth-authorization-server.json]
+- scope: openid
+  description: OpenID Connect sign-in; issue an ID token.
+  kind: standard
+  flows: [authorizationCode]
+  sources: [well-known/cerapedics-oauth-authorization-server.json]
+- scope: profile
+  description: Basic profile claims for the signed-in user.
+  kind: standard
+  flows: [authorizationCode]
+  sources: [well-known/cerapedics-oauth-authorization-server.json]
+- scope: offline_access
+  description: Issue a refresh token so the client can renew access without user
+    interaction.
+  kind: standard
+  flows: [authorizationCode]
+  sources: [well-known/cerapedics-oauth-authorization-server.json]
+observations:
+- >-
+  The scope model is coarse: one blanket user_impersonation scope governs the entire
+  MCP tool surface, so there is no per-tool or read-vs-write separation an agent
+  runtime could use to constrain what a delegated token may do.
+x-evidence:
+  fetched: '2026-08-02'
+  urls:
+  - {url: 'https://mcp.cerapedics.com/.well-known/oauth-protected-resource', http_status: 200}
+  - {url: 'https://mcp.cerapedics.com/.well-known/oauth-authorization-server', http_status: 200}

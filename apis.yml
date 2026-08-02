@@ -1,18 +1,63 @@
 aid: cerapedics
 name: Cerapedics
-description: 'Cerapedics is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Cerapedics is a global, commercial-stage orthobiologics company headquartered
+  in Westminster, Colorado, that develops and commercializes bone repair products built
+  on its proprietary P-15 synthetic small peptide technology — an osteogenic cell-binding
+  peptide discovered in 1996. Its FDA premarket-approved (PMA) products are i-FACTOR
+  Peptide Enhanced Bone Graft, approved in 2015 for single-level anterior cervical
+  discectomy and fusion (ACDF), and PearlMatrix P-15 Peptide Enhanced Bone Graft, approved
+  in 2025 for single-level transforaminal lumbar interbody fusion (TLIF). Cerapedics
+  publishes no public developer program, OpenAPI definition or SDKs; the only machine-readable
+  surface discovered by the API Evangelist enrichment pipeline is an OAuth-protected
+  Model Context Protocol (MCP) server at mcp.cerapedics.com, gated behind the company''s
+  Microsoft Entra ID tenant.'
+image: https://www.cerapedics.com/sites/default/files/styles/large/public/2024-11/cerapedics-logo_0.png
 url: https://raw.githubusercontent.com/api-evangelist/cerapedics/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment-pass
 specificationVersion: '0.20'
 created: '2026-08-02'
 modified: '2026-08-02'
 tags:
 - Company
-apis: []
+- Medical Devices
+- Orthopedics
+- Orthobiologics
+- Bone Graft
+- Spine Surgery
+- Healthcare
+- Life Sciences
+- Model Context Protocol
+apis:
+- aid: cerapedics-mcp
+  name: Cerapedics MCP Server
+  description: 'An OAuth-protected Model Context Protocol (MCP) server operated by
+    Cerapedics at mcp.cerapedics.com. The endpoint publishes RFC 9728 protected-resource
+    metadata and RFC 8414 authorization-server metadata anonymously, and answers every
+    other request with an RFC 6750 401 challenge carrying a resource_metadata pointer.
+    Authorization is delegated to Microsoft Entra ID using the authorization-code flow
+    with PKCE S256. The tool surface is not publicly readable: an anonymous JSON-RPC
+    tools/list call returns 401, so tool names and input schemas require authenticated
+    introspection against the Cerapedics tenant. This appears to be an internal /
+    tenant-restricted MCP deployment rather than a public developer API.'
+  humanURL: https://www.cerapedics.com/
+  baseURL: https://mcp.cerapedics.com/mcp
+  tags:
+  - Model Context Protocol
+  - MCP
+  - OAuth
+  - Agents
+  properties:
+  - type: MCPServer
+    url: mcp/cerapedics-mcp.yml
+  - type: Authentication
+    url: authentication/cerapedics-authentication.yml
+  - type: OAuthScopes
+    url: scopes/cerapedics-scopes.yml
+  - type: ErrorCatalog
+    url: errors/cerapedics-problem-types.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +65,43 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
+  url: https://www.cerapedics.com/
+- type: MCPServer
+  url: mcp/cerapedics-mcp.yml
+- type: WellKnown
+  url: well-known/cerapedics-well-known.yml
+- type: Authentication
+  url: authentication/cerapedics-authentication.yml
+- type: OAuthScopes
+  url: scopes/cerapedics-scopes.yml
+- type: Conformance
+  url: conformance/cerapedics-conformance.yml
+- type: ErrorCatalog
+  url: errors/cerapedics-problem-types.yml
+- type: DomainSecurity
+  url: security/cerapedics-domain-security.yml
+- type: LLMsTxt
+  url: llms/cerapedics-llms.txt
+- type: Blog
+  url: https://www.cerapedics.com/news-and-events/news
+- type: BlogRSS
+  url: https://www.cerapedics.com/rss.xml
+- type: Contact
+  url: https://www.cerapedics.com/contact-us
+- type: PrivacyPolicy
+  url: https://www.cerapedics.com/privacy-policy
+- type: TermsOfService
+  url: https://www.cerapedics.com/terms-of-use
+- type: Careers
+  url: https://www.cerapedics.com/careers
+- type: LinkedIn
+  url: https://www.linkedin.com/company/cerapedics
+- type: Twitter
+  url: https://x.com/CerapedicsInc
+- type: SecondaryMarket
   url: https://forgeglobal.com/cerapedics_stock/
+x-enrichment:
+  date: '2026-08-02'
+  status: enriched
+  artifacts_added: 9
+  pass: local-v1
