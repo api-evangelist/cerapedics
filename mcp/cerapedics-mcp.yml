@@ -10,8 +10,7 @@ server:
   url: https://mcp.cerapedics.com/mcp
   endpoints:
   - path: /mcp
-    description: Streamable HTTP JSON-RPC endpoint (the resource named by the protected-resource
-      metadata)
+    description: Streamable HTTP JSON-RPC endpoint (the resource named by the protected-resource metadata)
     status: 401
   - path: /sse
     description: Server-sent events transport
@@ -20,53 +19,65 @@ server:
     description: Legacy SSE message post endpoint
     status: 401
   server_header: uvicorn
-  hosting: Azure Container Apps (ca-itmcp-mcp.orangedune-23fe2cec.westus2.azurecontainerapps.io,
-    westus2)
+  hosting: Azure Container Apps (ca-itmcp-mcp.orangedune-23fe2cec.westus2.azurecontainerapps.io, westus2)
 authorization:
   model: OAuth 2.0 / MCP authorization
   authorization_servers:
   - https://login.microsoftonline.com/901bf24d-83de-4486-804c-8c263fdb31f4/v2.0
   identity_provider: Microsoft Entra ID
-  grant_types: [authorization_code, refresh_token]
-  pkce: [S256]
-  bearer_methods_supported: [header]
+  grant_types:
+  - authorization_code
+  - refresh_token
+  pkce:
+  - S256
+  bearer_methods_supported:
+  - header
   scopes_supported:
   - https://mcp.cerapedics.com/mcp/user_impersonation
   - offline_access
   - openid
   - profile
-  challenge: >-
-    WWW-Authenticate: Bearer resource_metadata="https://mcp.cerapedics.com/.well-known/oauth-protected-resource"
+  challenge: 'WWW-Authenticate: Bearer resource_metadata="https://mcp.cerapedics.com/.well-known/oauth-protected-resource"'
   see_also:
   - authentication/cerapedics-authentication.yml
   - scopes/cerapedics-scopes.yml
   - well-known/cerapedics-well-known.yml
 tools: []
-tools_note: >-
-  The tool surface is NOT publicly readable. An anonymous JSON-RPC POST of
-  {"jsonrpc":"2.0","id":1,"method":"tools/list"} to https://mcp.cerapedics.com/mcp
-  returns HTTP 401 {"error":"unauthorized","error_description":"missing or invalid
-  bearer token"}. Tool names, descriptions and inputSchemas therefore require an
-  authenticated introspection with a token issued by the Cerapedics Entra tenant.
-  Cerapedics publishes no llms.txt or developer documentation from which the tool
-  list could be recovered, so no tool list is recorded here — none has been inferred
-  or invented.
+tools_note: The tool surface is NOT publicly readable. An anonymous JSON-RPC POST of {"jsonrpc":"2.0","id":1,"method":"tools/list"}
+  to https://mcp.cerapedics.com/mcp returns HTTP 401 {"error":"unauthorized","error_description":"missing
+  or invalid bearer token"}. Tool names, descriptions and inputSchemas therefore require an authenticated
+  introspection with a token issued by the Cerapedics Entra tenant. Cerapedics publishes no llms.txt or
+  developer documentation from which the tool list could be recovered, so no tool list is recorded here
+  — none has been inferred or invented.
 notes:
-- Cerapedics publishes no public developer portal, OpenAPI definition or SDKs. This
-  MCP server is the only machine-readable API surface the enrichment pipeline found.
-- The Azure Container App name (ca-itmcp-mcp) and the single user_impersonation scope
-  both indicate an internal IT-facing MCP deployment for employees rather than a
-  partner or public developer API.
-- No A2A agent card is served from this host (/.well-known/agent-card.json and
-  /.well-known/agent.json both return 404).
+- Cerapedics publishes no public developer portal, OpenAPI definition or SDKs. This MCP server is the
+  only machine-readable API surface the enrichment pipeline found.
+- The Azure Container App name (ca-itmcp-mcp) and the single user_impersonation scope both indicate an
+  internal IT-facing MCP deployment for employees rather than a partner or public developer API.
+- No A2A agent card is served from this host (/.well-known/agent-card.json and /.well-known/agent.json
+  both return 404).
 x-evidence:
   fetched: '2026-08-02'
   probes:
-  - {url: 'https://mcp.cerapedics.com/', http_status: 401, content_type: application/json}
-  - {url: 'https://mcp.cerapedics.com/mcp', http_status: 401, content_type: application/json,
-     method: 'POST tools/list'}
-  - {url: 'https://mcp.cerapedics.com/.well-known/oauth-protected-resource', http_status: 200,
-     content_type: application/json}
-  - {url: 'https://mcp.cerapedics.com/.well-known/oauth-authorization-server', http_status: 200,
-     content_type: application/json}
-  - {url: 'https://mcp.cerapedics.com/.well-known/agent-card.json', http_status: 404}
+  - url: https://mcp.cerapedics.com/
+    http_status: 401
+    content_type: application/json
+  - url: https://mcp.cerapedics.com/mcp
+    http_status: 401
+    content_type: application/json
+    method: POST tools/list
+  - url: https://mcp.cerapedics.com/.well-known/oauth-protected-resource
+    http_status: 200
+    content_type: application/json
+  - url: https://mcp.cerapedics.com/.well-known/oauth-authorization-server
+    http_status: 200
+    content_type: application/json
+  - url: https://mcp.cerapedics.com/.well-known/agent-card.json
+    http_status: 404
+deployment:
+  mode: remote
+  endpoint: https://mcp.cerapedics.com/mcp
+  verified: probed
+  probe: wall
+  checked: '2026-08-12'
+  source: catalog MCP census
