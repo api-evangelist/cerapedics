@@ -29,6 +29,16 @@ tags:
 - Spine Surgery
 - Healthcare
 - Life Sciences
+- MCP
+tags_raw:
+- Company
+- Medical Devices
+- Orthopedics
+- Orthobiologics
+- Bone Graft
+- Spine Surgery
+- Healthcare
+- Life Sciences
 - Model Context Protocol
 apis:
 - aid: cerapedics-mcp
@@ -45,6 +55,10 @@ apis:
   humanURL: https://www.cerapedics.com/
   baseURL: https://mcp.cerapedics.com/mcp
   tags:
+  - MCP
+  - Authentication
+  - Agents
+  tags_raw:
   - Model Context Protocol
   - MCP
   - OAuth
