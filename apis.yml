@@ -11,6 +11,17 @@ description: 'Cerapedics is a global, commercial-stage orthobiologics company he
   surface discovered by the API Evangelist enrichment pipeline is an OAuth-protected
   Model Context Protocol (MCP) server at mcp.cerapedics.com, gated behind the company''s
   Microsoft Entra ID tenant.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.cerapedics.com/sites/default/files/styles/large/public/2024-11/cerapedics-logo_0.png
 url: https://raw.githubusercontent.com/api-evangelist/cerapedics/refs/heads/main/apis.yml
 x-type: company
