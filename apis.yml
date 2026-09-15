@@ -1,16 +1,14 @@
 aid: cerapedics
 name: Cerapedics
-description: 'Cerapedics is a global, commercial-stage orthobiologics company headquartered
-  in Westminster, Colorado, that develops and commercializes bone repair products built
-  on its proprietary P-15 synthetic small peptide technology — an osteogenic cell-binding
-  peptide discovered in 1996. Its FDA premarket-approved (PMA) products are i-FACTOR
-  Peptide Enhanced Bone Graft, approved in 2015 for single-level anterior cervical
-  discectomy and fusion (ACDF), and PearlMatrix P-15 Peptide Enhanced Bone Graft, approved
-  in 2025 for single-level transforaminal lumbar interbody fusion (TLIF). Cerapedics
-  publishes no public developer program, OpenAPI definition or SDKs; the only machine-readable
-  surface discovered by the API Evangelist enrichment pipeline is an OAuth-protected
-  Model Context Protocol (MCP) server at mcp.cerapedics.com, gated behind the company''s
-  Microsoft Entra ID tenant.'
+description: Cerapedics is a global, commercial-stage orthobiologics company headquartered in Westminster,
+  Colorado, that develops and commercializes bone repair products built on its proprietary P-15 synthetic
+  small peptide technology — an osteogenic cell-binding peptide discovered in 1996. Its FDA premarket-approved
+  (PMA) products are i-FACTOR Peptide Enhanced Bone Graft, approved in 2015 for single-level anterior
+  cervical discectomy and fusion (ACDF), and PearlMatrix P-15 Peptide Enhanced Bone Graft, approved in
+  2025 for single-level transforaminal lumbar interbody fusion (TLIF). Cerapedics publishes no public
+  developer program, OpenAPI definition or SDKs; the only machine-readable surface discovered by the API
+  Evangelist enrichment pipeline is an OAuth-protected Model Context Protocol (MCP) server at mcp.cerapedics.com,
+  gated behind the company's Microsoft Entra ID tenant.
 deliveryModel:
   model: saas
   open_source: false
@@ -66,17 +64,15 @@ tags_raw:
 - Life Sciences
 - Model Context Protocol
 apis:
-- aid: cerapedics-mcp
+- aid: cerapedics:cerapedics-mcp
   name: Cerapedics MCP Server
-  description: 'An OAuth-protected Model Context Protocol (MCP) server operated by
-    Cerapedics at mcp.cerapedics.com. The endpoint publishes RFC 9728 protected-resource
-    metadata and RFC 8414 authorization-server metadata anonymously, and answers every
-    other request with an RFC 6750 401 challenge carrying a resource_metadata pointer.
-    Authorization is delegated to Microsoft Entra ID using the authorization-code flow
-    with PKCE S256. The tool surface is not publicly readable: an anonymous JSON-RPC
-    tools/list call returns 401, so tool names and input schemas require authenticated
-    introspection against the Cerapedics tenant. This appears to be an internal /
-    tenant-restricted MCP deployment rather than a public developer API.'
+  description: 'An OAuth-protected Model Context Protocol (MCP) server operated by Cerapedics at mcp.cerapedics.com.
+    The endpoint publishes RFC 9728 protected-resource metadata and RFC 8414 authorization-server metadata
+    anonymously, and answers every other request with an RFC 6750 401 challenge carrying a resource_metadata
+    pointer. Authorization is delegated to Microsoft Entra ID using the authorization-code flow with PKCE
+    S256. The tool surface is not publicly readable: an anonymous JSON-RPC tools/list call returns 401,
+    so tool names and input schemas require authenticated introspection against the Cerapedics tenant.
+    This appears to be an internal / tenant-restricted MCP deployment rather than a public developer API.'
   humanURL: https://www.cerapedics.com/
   baseURL: https://mcp.cerapedics.com/mcp
   tags:
