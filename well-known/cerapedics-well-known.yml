@@ -1,13 +1,11 @@
-generated: '2026-08-02'
+generated: '2026-09-19'
 method: probed
 source: live probe of every Cerapedics host discovered via DNS and apis.yml
-summary: >-
-  Two hosts were probed for the RFC 8615 /.well-known/ discovery surface: the corporate
-  Drupal site (www.cerapedics.com) and the OAuth-protected MCP server (mcp.cerapedics.com).
-  The corporate site returns its themed Drupal 404 page for every well-known path,
-  including /.well-known/agent-card.json and /.well-known/agent.json — no A2A agent
-  card is published. The MCP host serves two real, anonymously readable OAuth discovery
-  documents.
+summary: 'Two hosts were probed for the RFC 8615 /.well-known/ discovery surface: the corporate Drupal
+  site (www.cerapedics.com) and the OAuth-protected MCP server (mcp.cerapedics.com). The corporate site
+  returns its themed Drupal 404 page for every well-known path, including /.well-known/agent-card.json
+  and /.well-known/agent.json — no A2A agent card is published. The MCP host serves two real, anonymously
+  readable OAuth discovery documents.'
 hosts:
 - host: https://mcp.cerapedics.com
   role: mcp-server
@@ -30,9 +28,8 @@ hosts:
     status: 404
 - host: https://www.cerapedics.com
   role: corporate-website
-  note: >-
-    Drupal 10 site. Every /.well-known/ path below returns the site's themed 404 page
-    (HTTP 404, text/html) — none of these documents are published.
+  note: Drupal 10 site. Every /.well-known/ path below returns the site's themed 404 page (HTTP 404, text/html)
+    — none of these documents are published.
   documents:
   - path: /.well-known/security.txt
     spec: RFC 9116
@@ -61,6 +58,13 @@ hosts:
   - path: /robots.txt
     status: 200
     note: stock Drupal robots.txt; no AI/agent directives, no Sitemap line
+- host: https://login.microsoftonline.com
+  documents:
+  - path: /901bf24d-83de-4486-804c-8c263fdb31f4/v2.0/.well-known/openid-configuration
+    status: 200
+    file: cerapedics-login-openid-configuration.json
+    bytes: 1964
+  path_echo_control: passed
 x-evidence:
   fetched: '2026-08-02'
   method: HTTP GET, redirects followed
@@ -76,3 +80,16 @@ x-evidence:
   - status.cerapedics.com
   - trust.cerapedics.com
   - my.cerapedics.com
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://login.microsoftonline.com
+    path: /901bf24d-83de-4486-804c-8c263fdb31f4/v2.0/.well-known/openid-configuration
+    file: cerapedics-login-openid-configuration.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host
+note: 'MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s
+  primary hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed
+  and were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'
