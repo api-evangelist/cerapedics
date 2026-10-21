@@ -1,0 +1,57 @@
+edges:
+- partner_name: FDA premarket approval (IVD / surgical panels)
+  partner: null
+  partner_match: register-name
+  type: contract
+  channel: regulator-register
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfpma/pma.cfm?id=P240001
+  category: FDA PMA-approved IVD / surgical device
+  contract_reference:
+    register: openFDA device/pma (decision_date >= 2016-01-01; panels CH HE IM MI PA TX SU OR)
+    standard: FDA premarket approval (IVD / surgical panels)
+    spec_file: null
+    role: fda-pma-holder
+    registered_name: Cerapedics, LLC
+    matched_domain: null
+    matched_by: register-name
+    detected_by: sweep-ivd-diagnostics.py
+    detected: '2026-10-21'
+    register_id: P240001
+    certified_products:
+    - product: FDA PMA approval, Orthopedic panel
+      product_type: Orthopedic
+      review_panel: OR
+      lapsed: false
+      latest_decision: '2026-09-16'
+      devices_sample:
+      - I-FACTOR PEPTIDE ENHANCED BONE GRAFT
+      - I-FACTOR Peptide Enhanced Bone Graft
+      - PearlMatrixTM Peptide Enhanced Bone Graft
+      - "PearlMatrix\x99 Bone Graft"
+      - "PearlMatrix\x99 P-15 Peptide Enhanced Bone Graft (PearlMatrix\x99 Bone Graft)"
+    signal_note: certified_products = one entry per FDA review PANEL with a PMA decision (original or supplement),
+      never per device; lapsed always false (decisions, not withdrawals)
+    register_name_note: register-name 'cerapedics' = cerapedics; no wikidata P856
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  detected_by: sweep-ivd-diagnostics.py
+  first_seen: '2026-10-21'
+generated: '2026-10-21'
+method: searched
+source:
+- https://api.fda.gov/device/510k.json
+- https://api.fda.gov/device/pma.json
+- https://api.fda.gov/device/registrationlisting.json
+- https://www.accessdata.fda.gov/premarket/ftparea/clia_detail.zip
+- https://ec.europa.eu/tools/eudamed/api/
+- https://www.advamed.org/advameddx/members/
+checked:
+- https://api.fda.gov/device/510k.json
+- https://api.fda.gov/device/pma.json
+- https://api.fda.gov/device/registrationlisting.json
+- https://ec.europa.eu/tools/eudamed/api/
+- https://www.accessdata.fda.gov/premarket/ftparea/clia_detail.zip
+- https://www.advamed.org/advameddx/members/
